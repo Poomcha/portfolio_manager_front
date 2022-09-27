@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import './App.css';
 import Auth from './components/Auth/Auth';
 import Layout from './components/Layout/Layout';
@@ -6,6 +6,30 @@ import client from './feathers';
 
 const usersService = client.service('users')
 const projectsService = client.service('projects')
+
+interface UserInterface {
+  accessToken: string,
+  authentication: {
+    accessToken: string,
+    payload: {
+      aud: string,
+      exp: number,
+      iat: number,
+      iss: string,
+      jti: string,
+      sub: string,
+    }
+    startegy: string,
+  }
+  user: {
+    admin: boolean,
+    email: string,
+    portfolio: string,
+    _id: string,
+  }
+}
+
+const UserContext = createContext<UserInterface | undefined | null>(undefined)
 
 function App() {
   const [login, setLogin] = useState(null);
@@ -22,7 +46,7 @@ function App() {
     client.on('authenticated', (loginResult: any): void => {
       // Case user is admin
       if (loginResult.user.admin) {
-        // Get all users
+        // Get all users except admin
         Promise.resolve(
           usersService.find({
             query: {
@@ -83,19 +107,19 @@ function App() {
 
   if (login) {
     return (
-      <React.Fragment>
+      <UserContext.Provider value={login}>
         <Layout></Layout>
-      </React.Fragment>
+      </UserContext.Provider>  
     )
   } 
 
   return (
-    <React.Fragment>
+    <UserContext.Provider value={login}>
       <Layout>
         <Auth loading={login === undefined} setLogin={setLogin} />
       </Layout>
-    </React.Fragment>
+    </UserContext.Provider>
   )
 }
 
-export default App;
+export { App, UserContext };
