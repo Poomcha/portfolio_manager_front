@@ -18,8 +18,6 @@ function App() {
       setLogin(null)
     });
 
-    console.log(login)
-
     // Successful login
     client.on('authenticated', (loginResult: any): void => {
       // Case user is admin
@@ -76,7 +74,7 @@ function App() {
       setUsers(prevUsers => prevUsers.concat(user))
     );
 
-    // Add new messages to the message list
+    // Add new projects to the project list
     projectsService.on('created', (project: any) =>
       setProjects(prevProjects => prevProjects.concat(project))
     );
@@ -94,7 +92,7 @@ function App() {
   return (
     <React.Fragment>
       <Layout>
-        <Auth loading={login === undefined} />
+        <Auth loading={login === undefined} setLogin={setLogin} />
       </Layout>
     </React.Fragment>
   )
