@@ -1,0 +1,23 @@
+.users {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: var(--padding);
+    margin-top: var(--margin-between-div);
+}
+
+.users__title {
+    width: 100%;
+    text-align: center;
+    padding: var(--padding);
+    margin-top: var(--margin-between-div);
+    color: var(--title-color);
+}
+
+.users__ctn {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: var(--padding);
+    margin-top: var(--margin-between-div);
+}

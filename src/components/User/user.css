@@ -1,0 +1,53 @@
+.user {
+    width: 100%;
+    padding: var(--padding);
+    margin: var(--margin-between-div) 0 0 var(--margin-between-div);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+}
+
+@media (hover: hover) {
+    .user {
+        transition: 200ms ease-out;
+    }
+    .user:hover {
+        box-shadow: var(--box-shadow-hovered);
+    }
+}
+
+.user__section {
+
+}
+
+.user__section__email {
+    color: var(--title-color);
+    font-size: var(--font-size-text);
+}
+
+.user__section__infos {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.user__section__infos > li {
+    list-style-type: none;
+}
+
+.user__section__infos > li:nth-child(1)::after,
+.user__section__infos > li:nth-child(2)::after {
+    content: "---";
+    color: var(--border-color);
+    padding: var(--padding);
+}
+
+.user__section__infos > li > span {
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 1024px) {
+    .user {
+        width: 400px;
+    }
+}

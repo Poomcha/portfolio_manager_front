@@ -1,15 +1,15 @@
 .logout {
     width: max-content;
-    height: 20px;
+    height: 100%;
     color: var(--red);
     cursor: pointer;
     display: flex;
+    align-items: center;
 }
 
 .logout__icon {
     width: 20px;
     height: 20px;
-    filter: drop-shadow(0 0 1px var(--red));
     margin-left: var(--margin-between-elmt);
 }
 

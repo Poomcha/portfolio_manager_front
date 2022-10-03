@@ -1,13 +1,14 @@
 import { createContext, useEffect, useState } from 'react';
 import './App.css';
 import Auth from './components/Auth/Auth';
+import Home from './components/Home/Home';
 import Layout from './components/Layout/Layout';
 import client from './feathers';
 
 const usersService = client.service('users')
 const projectsService = client.service('projects')
 
-interface UserInterface {
+interface LoginInterface {
   accessToken: string,
   authentication: {
     accessToken: string,
@@ -29,7 +30,18 @@ interface UserInterface {
   }
 }
 
-const UserContext = createContext<UserInterface | undefined | null>(undefined)
+export interface UserInterface {
+  _id: string,
+  email: string,
+  admin: boolean,
+  createdAt: string,
+  updatedAt: string,
+  __v: number,
+  portfolio: string,
+}
+
+const LoginContext = createContext<LoginInterface | undefined | null>(undefined)
+const UsersContext = createContext<UserInterface[] | []>([])
 
 function App() {
   const [login, setLogin] = useState(null);
@@ -60,7 +72,7 @@ function App() {
         ).then((resUsers) => {
           // Set result from login and users service
           setLogin(loginResult);
-          setUsers(resUsers.data)
+          setUsers(resUsers.data);
         });
       }
       // Case normal user
@@ -107,19 +119,23 @@ function App() {
 
   if (login) {
     return (
-      <UserContext.Provider value={login}>
-        <Layout></Layout>
-      </UserContext.Provider>  
+      <LoginContext.Provider value={login}>
+        <Layout>
+          <UsersContext.Provider value={users}>
+            <Home />
+          </UsersContext.Provider>
+        </Layout>
+      </LoginContext.Provider>  
     )
   } 
 
   return (
-    <UserContext.Provider value={login}>
+    <LoginContext.Provider value={login}>
       <Layout>
         <Auth loading={login === undefined} setLogin={setLogin} />
       </Layout>
-    </UserContext.Provider>
+    </LoginContext.Provider>
   )
 }
 
-export { App, UserContext };
+export { App, UsersContext, LoginContext };
